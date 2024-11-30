@@ -55,6 +55,7 @@ namespace ClimaTempo.ViewModels
         public ICommand BuscarPrevisaoCommand { get; }
 
         public ICommand BuscarCidadesCommand { get; }
+        public ICommand BuscarPrevisaoCidadeSelecionadaCommand { get; }
 
 
         public PrevisaoViewModel()
@@ -94,7 +95,34 @@ namespace ClimaTempo.ViewModels
             Cidade_list = new List<Cidade>();
             Cidade_list = await new CidadeService().GetCidadesByName(Cidade_pesquisada);
         }
-    
-    
+
+        public async void BuscarPrevisaoCidadeSelecionada(object sender, ItemTappedEventArgs e)
+        {
+
+            int l = 2 + 2;
+            if (e.Item != null)
+            {
+                var city = e.Item as Cidade; 
+                if (city != null)
+                {
+                    previsao = await new PrevisaoServices().GetPrevisaoById(city.Id);
+
+                    Cidade = previsao.Cidade;
+                    Estado = previsao.Estado;
+                    Condicao = previsao.Clima[0].Condicao;
+                    Condicao_desc = previsao.Clima[0].Condicao_desc;
+
+                    Min = previsao.Clima[0].Min;
+                    Max = previsao.Clima[0].Max;
+                    Indice_uv = previsao.Clima[0].Indice_uv;
+                    Data = previsao.Clima[0].Data;
+
+                }
+            }
+        }
+
     }
+    
+    
 }
+

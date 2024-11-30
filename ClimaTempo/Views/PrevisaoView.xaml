@@ -4,7 +4,7 @@
              x:Class="ClimaTempo.Views.PrevisaoView"
              Title="PrevisaoView">
     <VerticalStackLayout>
-      
+
         <!--
         <Label 
            
@@ -82,10 +82,14 @@
             Text="Pesquisar Cidade"/>
 
 
-        <CollectionView ItemsSource="{Binding Cidade_list}">
+        <CollectionView ItemsSource="{Binding Cidade_list}" SelectionMode="Single" SelectionChanged="{Binding BuscarPrevisaoCidadeSelecionada}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <HorizontalStackLayout>
+
+
+                        
+
                         <Label Text="{Binding Nome}"/>
                         <Label Text="{Binding Id}"/>
                         <Label Text="{Binding Estado}"/>
