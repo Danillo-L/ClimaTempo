@@ -57,7 +57,16 @@ namespace ClimaTempo.Services
                 {
                     string content = await response.Content.ReadAsStringAsync();
                     previsaoProximosDias = JsonSerializer.Deserialize<Previsao>(content, options);
-                };
+                }
+                else
+                {
+                    Previsao previsao = new Previsao();
+                    previsao.Estado = "SP";
+                    Clima climaTeste = new Clima();
+                    climaTeste.Max = 32;
+                    climaTeste.Min = 32;
+                    previsao.Clima.Add(climaTeste);
+                }
             }
             catch (Exception ex)
             {

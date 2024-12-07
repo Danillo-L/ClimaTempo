@@ -82,25 +82,17 @@
             Text="Pesquisar Cidade"/>
 
 
-        <CollectionView ItemsSource="{Binding Cidade_list}" SelectionMode="Single" SelectionChanged="{Binding BuscarPrevisaoCidadeSelecionada}">
+        <CollectionView ItemsSource="{Binding Cidade_list}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <HorizontalStackLayout>
-
-
-                        
-
                         <Label Text="{Binding Nome}"/>
                         <Label Text="{Binding Id}"/>
                         <Label Text="{Binding Estado}"/>
+                        <Button Command="{Binding Path=BindingContext.BuscarPrevisaoCommand, Source={x:Reference PrevisaoView}}" CommandParameter="{Binding Id}"/>
                     </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-
-
-
-
     </VerticalStackLayout>
 </ContentPage>                                                  

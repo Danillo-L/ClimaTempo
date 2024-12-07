@@ -28,10 +28,10 @@ namespace ClimaTempo.ViewModels
         private DateTime data;
         
         [ObservableProperty]
-        private double min;
+        private string min;
 
         [ObservableProperty]
-        private double max;
+        private string max;
 
         [ObservableProperty]
         private double indice_uv;
@@ -60,65 +60,24 @@ namespace ClimaTempo.ViewModels
 
         public PrevisaoViewModel()
         {
-            BuscarPrevisaoCommand = new Command(BuscarPrevisao);
+            BuscarPrevisaoCommand = new Command<int>(BuscarPrevisao);
             BuscarCidadesCommand = new Command(BuscarCidade);
         }
 
-        public async  void BuscarPrevisao()
+        public async  void BuscarPrevisao(int id)
         {
             //Busca os dados da previsão para uma cidade especificada:
-            previsao = await new PrevisaoServices().GetPrevisaoById(244);
-            
-            Cidade = previsao.Cidade;
-            Estado = previsao.Estado;
-            Condicao = previsao.Clima[0].Condicao;
-            Condicao_desc = previsao.Clima[0].Condicao_desc;
+            previsao = await new PrevisaoServices().GetPrevisaoById(id);
+            max = previsao.Clima[0].Max.ToString();
+            min = previsao.Clima[0].Min.ToString();
 
-            Min = previsao.Clima[0].Min;
-            Max = previsao.Clima[0].Max;
-            Indice_uv = previsao.Clima[0].Indice_uv;
-            Data = previsao.Clima[0].Data;
-
-
-            proxPrevisao = await new PrevisaoServices().GetPrevisaoForXDaysById(244, 3);
-            ProximosDias = proxPrevisao.Clima;
            
-            
-
-            //Busca os dados da previsão para os próximos dias:
-            proxPrevisao = await new PrevisaoServices().GetPrevisaoForXDaysById(244, 3);
-            ProximosDias = proxPrevisao.Clima;
         }
     
         public async void BuscarCidade()
         {
             Cidade_list = new List<Cidade>();
             Cidade_list = await new CidadeService().GetCidadesByName(Cidade_pesquisada);
-        }
-
-        public async void BuscarPrevisaoCidadeSelecionada(object sender, ItemTappedEventArgs e)
-        {
-
-            int l = 2 + 2;
-            if (e.Item != null)
-            {
-                var city = e.Item as Cidade; 
-                if (city != null)
-                {
-                    previsao = await new PrevisaoServices().GetPrevisaoById(city.Id);
-
-                    Cidade = previsao.Cidade;
-                    Estado = previsao.Estado;
-                    Condicao = previsao.Clima[0].Condicao;
-                    Condicao_desc = previsao.Clima[0].Condicao_desc;
-
-                    Min = previsao.Clima[0].Min;
-                    Max = previsao.Clima[0].Max;
-                    Indice_uv = previsao.Clima[0].Indice_uv;
-                    Data = previsao.Clima[0].Data;
-
-                }
-            }
         }
 
     }
